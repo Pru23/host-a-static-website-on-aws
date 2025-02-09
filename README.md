@@ -42,38 +42,34 @@ Follow these steps to deploy the static website:
 ### 2. Install and Configure Apache Web Server
 On each EC2 instance, execute the following script to install and configure the web server:
 
+```bash
 #!/bin/bash
-
-# Switch to the root user to gain full administrative privileges
+# Switch to the root user
 sudo su
 
-# Update all installed packages to their latest versions
+# Update all installed packages
 yum update -y
 
 # Install Apache HTTP Server
 yum install -y httpd
 
-# Change the current working directory to the Apache web root
-cd /var/www/html
+# Start the Apache service
+systemctl start httpd
+systemctl enable httpd
 
 # Install Git
 yum install git -y
 
-# Clone the project GitHub repository to the current directory
+# Navigate to Apache web root and clone the repository
+cd /var/www/html
 git clone https://github.com/Pru23/host-a-static-website-on-aws.git
 
-# Copy all files, including hidden ones, from the cloned repository to the Apache web root
+# Copy all files from the cloned repository to the web root
 cp -R host-a-static-website-on-aws/. /var/www/html/
 
-# Remove the cloned repository directory to clean up unnecessary files
+# Clean up unnecessary files
 rm -rf host-a-static-website-on-aws
-
-# Enable the Apache HTTP Server to start automatically at system boot
-systemctl enable httpd
-
-# Start the Apache HTTP Server to serve web content
-systemctl start httpd
-
+```
 
 ### 3. Accessing the Website
 After deployment, the website will be accessible via the domain registered in **Route 53** or through the **ALB's public DNS**.
@@ -83,5 +79,7 @@ All necessary files, including deployment scripts and architecture diagrams, are
 
 ## Conclusion
 This project effectively demonstrates how to deploy a static web application on AWS using best practices in cloud infrastructure, security, and automation. By leveraging AWS services like EC2, ALB, Auto Scaling, and Route 53, the solution ensures high availability, scalability, and security for hosting static websites.
+
+
 
 
